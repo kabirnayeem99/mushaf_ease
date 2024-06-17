@@ -3,7 +3,8 @@ import json
 
 def read_json_files(json_dir):
     json_data_list = []
-    for filename in os.listdir(json_dir):
+    file_names = sorted(os.listdir(json_dir), key=lambda x: int(os.path.splitext(x)[0]))
+    for filename in file_names:
         if filename.endswith('.json'):
             file_path = os.path.join(json_dir, filename)
             with open(file_path, 'r', encoding='utf-8') as f:
