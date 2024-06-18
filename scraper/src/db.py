@@ -5,7 +5,7 @@ import time
 from src.tajweed_coloring import set_tajweed
 
 
-def create_database(db_path='generated/indopak_mushaf.db'):
+def create_database(db_path='../mobile/app/src/main/assets/indopak_mushaf.db'):
 
     # Ensure the directory exists
     os.makedirs(os.path.dirname(db_path), exist_ok=True)

@@ -8,12 +8,13 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Ayahs")
 @Fts4
 data class AyahEntity(
-    @PrimaryKey @ColumnInfo(name = "rowid") val rowId: Int,
-    val surahId: Int,
-    val ayahNumber: Int,
+    @PrimaryKey @ColumnInfo("rowid") val rowid: Int? = null,
+    @ColumnInfo("surah_id") val surahId: Int,
+    @ColumnInfo("ayah_number") val ayahNumber: Int,
     val juz: Int,
     val page: Int,
     val text: String,
-    val textNoDiacritic: String,
-    val textTajweed: String
+    @ColumnInfo("text_nodiactric") val textNoDiacritic: String,
+    @ColumnInfo("text_tajweed") val textTajweed: String,
+    @ColumnInfo("FOREIGN") val foreign: Int? = null,
 )
