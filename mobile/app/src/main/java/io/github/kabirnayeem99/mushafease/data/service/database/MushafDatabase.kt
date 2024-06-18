@@ -11,19 +11,28 @@ import io.github.kabirnayeem99.mushafease.data.service.database.dao.SurahDao
 
 @Database(exportSchema = false, entities = [AyahEntity::class, SurahEntity::class], version = 1)
 abstract class MushafDatabase : RoomDatabase() {
+
     abstract fun surahDao(): SurahDao
     abstract fun ayahDao(): AyahDao
 
     companion object {
         @Volatile
-        private var INSTANCE: MushafDatabase? = null
+        private var DB_INSTANCE: MushafDatabase? = null
 
-        fun getDatabase(context: Context): MushafDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext, MushafDatabase::class.java, "mushaf_database"
-                ).createFromAsset("indopak_mushaf.db").build()
-                INSTANCE = instance
+        private const val DB_NAME = "mushaf_database"
+        private const val ASSET_DB_FILE = "indopak_mushaf.db"
+
+        fun get(context: Context): MushafDatabase {
+            return DB_INSTANCE ?: synchronized(DB_NAME) {
+                val appContext = context.applicationContext
+                val dbBuilder =
+                    Room.databaseBuilder(appContext, MushafDatabase::class.java, DB_NAME)
+                dbBuilder.apply {
+                    createFromAsset(ASSET_DB_FILE)
+                    fallbackToDestructiveMigration()
+                }
+                val instance = dbBuilder.build()
+                DB_INSTANCE = instance
                 instance
             }
         }

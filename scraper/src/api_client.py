@@ -1,7 +1,8 @@
-import requests
 import time
 import random
 import math
+import requests
+import requests_cache
 
 class QuranVerse:
     def __init__(self, id, verse_number, verse_key, hizb_number, rub_el_hizb_number, ruku_number,
@@ -19,20 +20,21 @@ class QuranVerse:
 
 def fetch_verses_by_surah(surah_number, surah_name, surah_ayat):
     base_url = f"https://api.quran.com/api/v4/verses/by_chapter/{surah_number}"
-    per_page = adjust_pagination(30, surah_ayat)
+    per_page = adjust_pagination(50, surah_ayat)
     current_page = 1
     total_records = None
     verses = []
+    session = requests_cache.CachedSession('by_chapter_cache')
 
     while True:
         url = f"{base_url}?per_page={per_page}&page={current_page}"
-        response = requests.get(url, headers={'Accept': 'application/json'})
+        response = session.get(url, headers={'Accept': 'application/json'})
 
         if response.status_code == 200:
             data = response.json()
             if not total_records:
                 total_records = data['pagination']['total_records']
-                print(f"📜 Total verses in Surah {surah_name}: {total_records}")
+                print(f"📜 Total verses in {surah_number} - Surah {surah_name}: {total_records}")
                 print(f"📖 Total pages in Surah {surah_name}: {math.ceil(total_records/per_page)}")
 
             current_page = data['pagination']['current_page']
@@ -68,7 +70,7 @@ def fetch_verses_by_surah(surah_number, surah_name, surah_ayat):
     return verses
 
 def adjust_pagination(per_page, total_records):
-    if total_records > 30:
-        return 30
+    if total_records > per_page:
+        return per_page
     else:
         return total_records

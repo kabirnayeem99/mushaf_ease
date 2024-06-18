@@ -16,6 +16,9 @@ interface AyahDao {
     @Query("SELECT * FROM Ayahs WHERE page=:page")
     fun getAyahsFromPage(page: Int): Flow<List<AyahEntity>>
 
+    @Query("SELECT * FROM Ayahs WHERE page=:page")
+    suspend fun getAyahsFromPageSync(page: Int): List<AyahEntity>
+
     @Query("SELECT * FROM Ayahs WHERE juz=:juz")
     fun getAyahsFromJuz(juz: Int): Flow<List<AyahEntity>>
 }

@@ -1,4 +1,4 @@
-package io.github.kabirnayeem99.mushafease.presentation.ui.theme
+package io.github.kabirnayeem99.mushafease.presentation.config
 
 import androidx.compose.ui.graphics.Color
 

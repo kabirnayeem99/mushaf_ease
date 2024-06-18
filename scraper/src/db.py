@@ -5,7 +5,7 @@ import time
 from src.tajweed_coloring import set_tajweed
 
 
-def create_database(db_path='../mobile/app/src/main/assets/indopak_mushaf.db'):
+def create_database(db_path='generated/indopak_mushaf.db'):
 
     # Ensure the directory exists
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
@@ -43,26 +43,25 @@ def create_database(db_path='../mobile/app/src/main/assets/indopak_mushaf.db'):
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Surahs (
         surah_id INTEGER PRIMARY KEY, 
-        name TEXT,
-        name_latin TEXT,
-        number_of_ayah INTEGER
-    )
+        name TEXT NOT NULL,
+        name_latin TEXT NOT NULL,
+        number_of_ayah INTEGER NOT NULL
+    );
     ''')
 
     # Create Ayahs table with full-text search enabled
     cursor.execute('''
-    CREATE VIRTUAL TABLE IF NOT EXISTS Ayahs 
-    USING FTS4 (
-        rowid INTEGER PRIMARY KEY,
-        surah_id INTEGER,
-        ayah_number INTEGER,
-        juz INTEGER,
-        page INTEGER,
-        text TEXT,
-        text_nodiactric TEXT, 
-        text_tajweed TEXT, 
-        FOREIGN KEY (surah_id) REFERENCES Surahs(surah_id)
-    )
+    CREATE TABLE IF NOT EXISTS Ayahs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        surah_id INTEGER NOT NULL,
+        ayah_number INTEGER NOT NULL,
+        juz INTEGER NOT NULL,
+        page INTEGER NOT NULL,
+        text TEXT NOT NULL,
+        text_nodiactric TEXT NOT NULL, 
+        text_tajweed TEXT NOT NULL, 
+        FOREIGN KEY (surah_id) REFERENCES Surahs(surah_id) ON DELETE CASCADE
+    );
     ''')
 
     conn.commit()
