@@ -1,11 +1,10 @@
 package io.github.kabirnayeem99.mushafease.presentation.ui.directmushafpage
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
@@ -35,21 +34,21 @@ fun DirectMushafPageScreen(viewModel: DirectMushafPageViewModel = viewModel()) {
 
     BaseComposeScreen { innerPadding ->
         HorizontalPager(state = pagerState) {
-            val words = uiState.page.ayahs.map { p -> p.text.split(" ") }.flatten()
-            FlowRow(
+            LazyColumn(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(12.dp)
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                    .padding(12.dp),
             ) {
-                uiState.page.ayahs.fastForEach { ayah->
-                    HtmlText(
-                        text = ayah.text,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontSize = 24.sp,
-                        lineHeight = 1.5.sp,
-                    )
+                uiState.page.ayahs.forEach { ayah ->
+                    item {
+                        HtmlText(
+                            text = ayah.text,
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontSize = 24.sp,
+                            lineHeight = 1.5.sp,
+                        )
+                    }
                 }
             }
         }
