@@ -1,4 +1,4 @@
-package io.github.kabirnayeem99.mushafease
+package io.github.kabirnayeem99.mushafease.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.kabirnayeem99.mushafease.ui.theme.MushafEaseTheme
+import io.github.kabirnayeem99.mushafease.presentation.ui.theme.MushafEaseTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
