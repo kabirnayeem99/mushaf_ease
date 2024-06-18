@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.kabirnayeem99.mushafease.presentation.common.BaseComposeScreen
+import io.github.kabirnayeem99.mushafease.presentation.common.htmlcompose.HtmlText
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -39,14 +39,16 @@ fun DirectMushafPageScreen(viewModel: DirectMushafPageViewModel = viewModel()) {
             FlowRow(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .padding(24.dp)
+                    .padding(12.dp)
                     .fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                words.fastForEach { word ->
-                    Text(
-                        text = word, style = MaterialTheme.typography.bodyLarge,
-                        fontSize = 20.sp,
+                uiState.page.ayahs.fastForEach { ayah->
+                    HtmlText(
+                        text = ayah.text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 24.sp,
+                        lineHeight = 1.5.sp,
                     )
                 }
             }

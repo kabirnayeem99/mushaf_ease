@@ -16,6 +16,10 @@ val lpmqFontFamily = FontFamily(
     Font(R.font.lpmq)
 )
 
+val nooreHudaFontFamily = FontFamily(
+    Font(R.font.noorehuda)
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(

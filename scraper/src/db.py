@@ -84,15 +84,42 @@ def insert_surah_data(conn,surah_id, surah_info, versesApiList):
     # Insert ayahs into Ayahs table
     for ayah_number, ayah_text in surah_info['text'].items():
         ayah_no = int(ayah_number)
+        ayat_end = get_verse_end_symbol(ayah_number)
+        tajweed_colored_ayat = set_tajweed(ayah_text) + " " + ayat_end
         cursor.execute('''
         INSERT INTO Ayahs ( rowid, surah_id, ayah_number, text, text_nodiactric, text_tajweed, juz, page)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (get_timestamp(), surah_id, ayah_no, ayah_text, remove_diacritics(ayah_text), set_tajweed(ayah_text), versesApiList[ayah_no-1].juz_number, versesApiList[ayah_no-1].page_number))
+        ''', (get_timestamp(), surah_id, ayah_no, ayah_text + " " + ayat_end, remove_diacritics(ayah_text), tajweed_colored_ayat, versesApiList[ayah_no-1].juz_number, versesApiList[ayah_no-1].page_number))
 
     total_ayahs = len(surah_info['text'])
     print(f"💾 Saved the {total_ayahs} ayahs for Surah {surah_info['name_latin']}")
     print("\n") 
     conn.commit()
+
+def get_verse_end_symbol(verse_number, arabic_numeral=True):
+    arabic_numeric = ''
+    digits = list(str(verse_number))
+
+    if not arabic_numeral:
+        return '\u06dd{}'.format(verse_number)
+
+    arabic_numbers = {
+        "0": "٠",
+        "1": "١",
+        "2": "٢",
+        "3": "٣",
+        "4": "٤",
+        "5": "٥",
+        "6": "٦",
+        "7": "٧",
+        "8": "٨",
+        "9": "٩",
+    }
+
+    for e in digits:
+        arabic_numeric += arabic_numbers[e]
+
+    return '\u06dd{}'.format(arabic_numeric)
 
 def get_timestamp():
     timestamp = time.time_ns()

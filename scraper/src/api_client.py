@@ -62,8 +62,6 @@ def fetch_verses_by_surah(surah_number, surah_name, surah_ayat):
             else:
                 break
 
-            delay = random.uniform(0.5, 2.0)
-            time.sleep(delay)
         else:
             print(f"❌ Failed to fetch data. Status code: {response.status_code}")
             break
