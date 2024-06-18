@@ -71,12 +71,12 @@ def set_tajweed(text):
 
     # Map regex patterns to hexadecimal color strings
     pattern_to_color = {
-        gunnah_pattern: "#FFC0CB",  # Light pink
-        qalqala_pattern: "#FF0000",  # Red
-        iqlabm_pattern: "#FFA500",  # Orange
-        idhgham_pattern: "#0000FF",  # Blue
-        idhgham_without_gunnah_pattern: "#008000",  # Green
-        ikhfa_pattern: "#FFA500"  # Orange (same as iqlabm_pattern)
+        gunnah_pattern: "#FFAAFF",  # Light pink
+        qalqala_pattern: "#FFAAFF",  # Red
+        iqlabm_pattern: "#FFAAFF",  # Orange
+        idhgham_pattern: "#FFAAFF",  # Blue
+        idhgham_without_gunnah_pattern: "#FFAAFF",  # Green
+        ikhfa_pattern: "#FFAAFF"  # Orange (same as iqlabm_pattern)
     }
 
     # Apply highlighting for different linguistic features
@@ -86,7 +86,7 @@ def set_tajweed(text):
             start = match.start()
             end = match.end()
             matched_text = html_text[start:end]
-            highlighted_text = f'<span style="color: {hex_color};">{matched_text}</span>'
+            highlighted_text = f"<span style=color:{hex_color};>{matched_text}</span>"
             html_text = html_text[:start] + highlighted_text + html_text[end:]
 
     return html_text
