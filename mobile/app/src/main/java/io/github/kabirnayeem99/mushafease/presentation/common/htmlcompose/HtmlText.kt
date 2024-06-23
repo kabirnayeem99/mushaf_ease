@@ -22,33 +22,33 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.HtmlCompat
 
 private const val URL_TAG = "url_tag"
-
-@Composable
-fun HtmlText(
-    text: String,
-    modifier: Modifier = Modifier,
-    style: TextStyle = TextStyle.Default,
-    softWrap: Boolean = true,
-    overflow: TextOverflow = TextOverflow.Clip,
-    maxLines: Int = Int.MAX_VALUE,
-    onTextLayout: (TextLayoutResult) -> Unit = {},
-    fontSize: TextUnit = 14.sp,
-    lineHeight: TextUnit = 1.5.sp,
-    flags: Int = HtmlCompat.FROM_HTML_MODE_COMPACT,
-) {
-    val content = text.asHTML(fontSize, flags)
-
-    Text(
-        modifier = modifier,
-        text = content,
-        style = style,
-        softWrap = softWrap,
-        overflow = overflow,
-        maxLines = maxLines,
-        onTextLayout = onTextLayout,
-        lineHeight = lineHeight,
-    )
-}
+//
+//@Composable
+//fun HtmlText(
+//    text: String,
+//    modifier: Modifier = Modifier,
+//    style: TextStyle = TextStyle.Default,
+//    softWrap: Boolean = true,
+//    overflow: TextOverflow = TextOverflow.Clip,
+//    maxLines: Int = Int.MAX_VALUE,
+//    onTextLayout: (TextLayoutResult) -> Unit = {},
+//    fontSize: TextUnit = 14.sp,
+//    lineHeight: TextUnit = 1.5.sp,
+//    flags: Int = HtmlCompat.FROM_HTML_MODE_COMPACT,
+//) {
+//    val content = text.asHTML(fontSize, flags)
+//
+//    Text(
+//        modifier = modifier,
+//        text = content,
+//        style = style,
+//        softWrap = softWrap,
+//        overflow = overflow,
+//        maxLines = maxLines,
+//        onTextLayout = onTextLayout,
+//        lineHeight = lineHeight,
+//    )
+//}
 
 @Composable
 private fun String.asHTML(

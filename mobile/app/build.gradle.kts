@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation("de.charlex.compose.material3:material3-html-text:2.0.0-beta01")
 }
 
 kapt {

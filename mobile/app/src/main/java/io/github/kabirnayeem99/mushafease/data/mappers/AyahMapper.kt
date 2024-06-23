@@ -5,4 +5,4 @@ import io.github.kabirnayeem99.mushafease.domain.entities.Ayah
 
 fun List<AyahEntity>.toAyahList() = map { a -> a.toAyah() }
 
-fun AyahEntity.toAyah() = Ayah(number = id ?: 0, key = "$id-$surahId", text = text)
+fun AyahEntity.toAyah() = Ayah(number = id ?: 0, key = "$id-$surahId", text = textTajweed)

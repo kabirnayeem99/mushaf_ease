@@ -1,6 +1,14 @@
 import re
 
-# Define constants for Arabic characters
+blue = '#34AADC'       
+green = '#4CD964'      
+red = '#FF3B30'        
+yellow = '#FFCC00'     
+orange = '#FF9500'     
+purple = '#5856D6'     
+light_green = '#7ED321'
+grey = '#8E8E93'       
+
 fathah = '\u064e'
 dhamma = '\u064f'
 kasra = '\u0650'
@@ -58,35 +66,63 @@ tatweel_empty_letter = "\u0640"
 high_small_ya = "\u06E7"
 uthmani_stop_signs = stop_sign_three_dots + stop_sign_zim + stop_sign_qaf_lam + stop_sign_soad_lam + stop_sign_lam + stop_sign_mim
 
-# Define regex patterns for different linguistic features
+indopak_stop_sign_three_dots = '\u06DB'  # ARABIC SMALL HIGH THREE DOTS
+indopak_stop_sign_circle = '\u06DD'      # ARABIC END OF AYAH (used for circular stop)
+indopak_stop_sign_mim = '\u06D1'         # ARABIC SMALL HIGH LIGATURE QAF WITH LAM WITH ALEF MAKSURA (used for Mim)
+indopak_stop_sign_lam_alif = '\u06E0'    # ARABIC SMALL HIGH LIGATURE QAF WITH LAM WITH ALEF MAKSURA (used for Lam-Alef)
+indopak_stop_sign_toa = '\u06E2'         # ARABIC SMALL HIGH TO WITH INVERTED V (used for Toa)
+indopak_stop_sign_jeem = '\u06E3'        # ARABIC SMALL HIGH JEEM (used for Jeem)
+
+indopak_stop_signs = indopak_stop_sign_three_dots + indopak_stop_sign_circle + indopak_stop_sign_mim + indopak_stop_sign_lam_alif + indopak_stop_sign_toa + indopak_stop_sign_jeem
+all_stop_signs = uthmani_stop_signs + indopak_stop_signs
+
+
+arabic_small_high_sign_safha = '\u08D1'
+arabic_small_high_sign_shadda_with_damma = '\u08D2'
+arabic_small_high_sign_shadda_with_kasra = '\u08D3'
+arabic_small_high_four_dots_above = '\u08D4'
+arabic_small_high_letter_alef = '\u08D5'
+arabic_small_high_ligature_sad_with_lam_with_alef_maksura = '\u08D6'
+arabic_small_high_ligature_qaf_with_lam_with_alef_maksura = '\u08D7'
+
 gunnah_pattern = re.compile(f"[{nun}{mim}]{shadda}")
-iqlabm_pattern = re.compile(f"[{high_meem}{low_meem}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{uthmani_stop_signs}]?{space}?{ba}")
+iqlabm_pattern = re.compile(f"[{high_meem}{low_meem}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{all_stop_signs}]?{space}?{ba}")
 qalqala_pattern = re.compile(f"[{qaf}{toa}{ba}{zim}{dal}]({sukun}|{curvy_sukun}|[^{ta_marbuta}]?[^{ta_marbuta}{empty_alif}{empty_ya}]?[^{ta_marbuta}{empty_alif}{alif_hamza}]$)")
-idhgham_pattern = re.compile(f"([{nun}{fathatain}{dammatain}{kasratain}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{uthmani_stop_signs}]?{space}[{nun}{mim}{another_ya}{wow}]{shadda}?)|{mim}[{uthmani_stop_signs}{sukun}{curvy_sukun}]?{space}mim")
-idhgham_without_gunnah_pattern = re.compile(f"[{nun}{kasratain}{fathatain}{dammatain}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{uthmani_stop_signs}]?{space}[{ra}{lam}]")
-ikhfa_pattern = re.compile(f"([{nun}{kasratain}{fathatain}{dammatain}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{uthmani_stop_signs}]?{space}?[{soad}{zaal}{tha}{kaf}{zim}{shin}{qaf}{seen}{dal}{toa}{zha}{fa}{ta}{doad}{zoa}{indopak_kaf}])|{mim}[{sukun}{curvy_sukun}]?{space}?ba")
+idhgham_pattern = re.compile(f"([{nun}{fathatain}{dammatain}{kasratain}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{all_stop_signs}]?{space}[{nun}{mim}{another_ya}{wow}]{shadda}?)|{mim}[{all_stop_signs}{sukun}{curvy_sukun}]?{space}mim")
+idhgham_without_gunnah_pattern = re.compile(f"[{nun}{kasratain}{fathatain}{dammatain}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{all_stop_signs}]?{space}[{ra}{lam}]")
+ikhfa_pattern = re.compile(f"([{nun}{kasratain}{fathatain}{dammatain}][{sukun}{curvy_sukun}{empty_ya}{empty_alif}]?[{all_stop_signs}]?{space}?[{soad}{zaal}{tha}{kaf}{zim}{shin}{qaf}{seen}{dal}{toa}{zha}{fa}{ta}{doad}{zoa}{indopak_kaf}])|{mim}[{sukun}{curvy_sukun}]?{space}?ba")
 
 def set_tajweed(text):
     html_text = text
 
     # Map regex patterns to hexadecimal color strings
     pattern_to_color = {
-        gunnah_pattern: "#FFAAFF",  # Light pink
-        qalqala_pattern: "#FFAAFF",  # Red
-        iqlabm_pattern: "#FFAAFF",  # Orange
-        idhgham_pattern: "#FFAAFF",  # Blue
-        idhgham_without_gunnah_pattern: "#FFAAFF",  # Green
-        ikhfa_pattern: "#FFAAFF"  # Orange (same as iqlabm_pattern)
+        gunnah_pattern: orange,  # Light pink
+        qalqala_pattern: red,  # Red
+        iqlabm_pattern: grey,  # Orange
+        idhgham_pattern: green,  # Blue
+        idhgham_without_gunnah_pattern: light_green,  # Green
+        ikhfa_pattern: blue,  # Orange (same as iqlabm_pattern)
     }
+
+    output = []
+    last_end = 0
 
     # Apply highlighting for different linguistic features
     for pattern, hex_color in pattern_to_color.items():
-        matcher = pattern.finditer(html_text)
-        for match in matcher:
-            start = match.start()
-            end = match.end()
-            matched_text = html_text[start:end]
-            highlighted_text = f"<span style=color:{hex_color};>{matched_text}</span>"
-            html_text = html_text[:start] + highlighted_text + html_text[end:]
+        for match in pattern.finditer(text):
+            start, end = match.span()
+            output.append(text[last_end:start])
+            output.append(f'<span style="color:{hex_color};">{text[start:end]}</span>')
+            last_end = end
 
-    return html_text
+    output.append(text[last_end:])
+    html_text = ''.join(output)
+
+    return add_space_after_stop_signs(html_text, all_stop_signs)
+
+def add_space_after_stop_signs(text, stop_signs):
+    for sign in stop_signs:
+        text = text.replace(sign, sign + ' ')
+
+    return text
